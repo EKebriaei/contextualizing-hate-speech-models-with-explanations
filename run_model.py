@@ -193,7 +193,7 @@ def main():
                         action='store_true',
                         help="Whether to run training.")
     parser.add_argument("--do_eval",
-                        action='store_true',
+                        action='store_false',
                         help="Whether to run eval on the dev set.")
     parser.add_argument("--do_lower_case",
                         action='store_true',
