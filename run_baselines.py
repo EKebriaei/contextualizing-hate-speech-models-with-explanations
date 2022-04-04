@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble.gradient_boosting import GradientBoostingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
-from loader import GabProcessor, WSProcessor, NytProcessor
+from loader import GabProcessor, WSProcessor, NytProcessor, FaProcessor
 from utils.config import configs
 from bert.tokenization import BertTokenizer
 import argparse
@@ -55,6 +55,9 @@ def examples_to_bow(examples, tokenizer, max_seq_length):
 def fit_tfidf_model(dataset):
     if dataset == 'gab':
         data_processor = GabProcessor(configs)
+    elif dataset == 'fa':
+        configs.data_dir = './data/fa/'
+        data_processor = FaProcessor(configs)
     else: # dataset is 'ws'
         configs.data_dir = './data/white_supremacy/'
         data_processor = WSProcessor(configs)
@@ -149,7 +152,7 @@ def dump_coeff(model, vectorizer):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', choices=['ws','gab'])
+    parser.add_argument('--dataset', choices=['ws','gab', 'fa'])
     parser.add_argument('--do_lower_case', action='store_true')
     parser.add_argument('--model_name')
     parser.add_argument('--max_seq_length', default=128)
